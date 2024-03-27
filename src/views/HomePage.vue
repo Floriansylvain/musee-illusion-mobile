@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { IonButton } from "@ionic/vue";
+import { IonButton, IonPage } from "@ionic/vue";
 </script>
 
 <template>
-  <main>
+  <ion-page class="main">
     <section class="top-content">
       <img src="/image 8.png" alt="salle illusion" />
     </section>
@@ -13,15 +13,15 @@ import { IonButton } from "@ionic/vue";
       <h3>
         Venez découvrir les salles / installations que nous avons mis en place !
       </h3>
-      <IonButton fill="outline" color="dark" routerLink="/rooms"
-        >DÉCOUVRIR</IonButton
+      <ion-button fill="outline" color="dark" routerLink="/rooms"
+        >DÉCOUVRIR</ion-button
       >
     </section>
-  </main>
+  </ion-page>
 </template>
 
 <style scoped>
-main {
+.main {
   height: 100vh;
   padding: 32px;
 
@@ -57,7 +57,7 @@ h3 {
 }
 
 @media (prefers-color-scheme: light) {
-  main {
+  .main {
     background-image: linear-gradient(-45deg, #983dd1 0, #ffffff 60%);
   }
 
