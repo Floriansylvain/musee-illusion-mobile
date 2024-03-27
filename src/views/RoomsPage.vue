@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonPage, IonContent } from "@ionic/vue";
+import { IonPage } from "@ionic/vue";
 import PagesHeader from "@/components/PagesHeader.vue";
 import { onMounted, ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 
 const data = ref();
 
-const doGet = async () => {
+const getRooms = async () => {
   const options = {
     url: "https://api.airtable.com/v0/appjEyYgBdj0qnspK/salles?maxRecords=3&view=Grid%20view",
     headers: {
@@ -23,41 +23,40 @@ const doGet = async () => {
 };
 
 onMounted(async () => {
-  const response = await doGet();
+  const response = await getRooms();
   data.value = response.data?.records;
-  console.table(data.value[0].fields.audio);
 });
 </script>
 
 <template>
   <ion-page class="page">
-    <ion-content color="light">
-      <PagesHeader />
-      <main>
-        <h2>Les salles</h2>
-        <h3>Venez découvrir les salles mises en place !</h3>
+    <PagesHeader />
+    <main>
+      <h2>Les salles</h2>
+      <h3>Venez découvrir les salles mises en place !</h3>
 
-        <swiper
-          :pagination="{
-            clickable: true,
-            el: '.swiper-pagination',
-            bulletClass: 'swiper-pagination-bullet-custom',
-            bulletActiveClass: 'swiper-pagination-bullet-active-custom',
-          }"
-          :modules="[Pagination]"
-          :space-between="50"
-        >
-          <swiper-slide v-for="element in data" :key="element.titre">
-            <section>
-              <h4>{{ element.fields.titre }}</h4>
-              <img :src="element.fields.image[0].url" alt="hallan" />
-              <audio controls :src="element.fields.audio[0].url"></audio>
-            </section>
-          </swiper-slide>
-        </swiper>
-        <div slot="pagination" class="swiper-pagination"></div>
-      </main>
-    </ion-content>
+      <swiper
+        :pagination="{
+          clickable: true,
+          el: '.swiper-pagination',
+          bulletClass: 'pagination-bullet',
+          bulletActiveClass: 'pagination-bullet-active',
+        }"
+        :modules="[Pagination]"
+        :space-between="250"
+        :auto-height="false"
+        class="mySwiper"
+      >
+        <swiper-slide v-for="element in data" :key="element.titre">
+          <section>
+            <h4>{{ element.fields.titre }}</h4>
+            <img :src="element.fields.image[0].url" alt="hallan" />
+            <audio controls :src="element.fields.audio[0].url"></audio>
+          </section>
+        </swiper-slide>
+      </swiper>
+      <div slot="pagination" class="swiper-pagination"></div>
+    </main>
   </ion-page>
 </template>
 
@@ -66,18 +65,26 @@ onMounted(async () => {
   background-color: var(--ion-color-light);
 
   justify-content: start;
+  height: 100vh;
 }
 
-ion-content {
+section {
   display: flex;
   flex-direction: column;
   gap: 8px;
 
   height: 100%;
+  min-height: 0;
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+
   padding: 0 32px 32px 32px;
+
+  height: 100%;
+  min-height: 0;
 }
 
 h2 {
@@ -105,6 +112,7 @@ img {
   width: 100%;
   object-fit: cover;
   border-radius: 14px;
+  min-height: 0;
 }
 
 audio {
@@ -119,16 +127,23 @@ audio {
   margin-top: 16px;
 }
 
-.swiper-pagination-bullet-custom {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+.mySwiper {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+</style>
+
+<style>
+.pagination-bullet,
+.pagination-bullet-active {
+  width: 48px;
+  height: 4px;
+  background-color: var(--ion-color-medium);
+  border-radius: 8px;
 }
 
-.swiper-pagination-bullet-active-custom {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: red !important;
+.pagination-bullet-active {
+  background-color: var(--ion-color-dark);
 }
 </style>
