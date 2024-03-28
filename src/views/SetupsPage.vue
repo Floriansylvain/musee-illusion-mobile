@@ -2,10 +2,9 @@
 import { IonPage } from "@ionic/vue";
 import { onMounted, ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Pagination } from "swiper/modules";
 import { CapacitorHttp } from "@capacitor/core";
 
-import AudioGuide from "@/components/AudioGuide.vue";
+import IllusionSwiper from "@/components/IllusionSwiper.vue";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -38,30 +37,10 @@ onMounted(async () => {
           <h2>Les installations !</h2>
           <h3>Venez découvrir les installations mises en place !!</h3>
 
-          <swiper
-            :pagination="{
-              clickable: true,
-              el: '.swiper-pagination',
-              bulletClass: 'pagination-bullet',
-              bulletActiveClass: 'pagination-bullet-active',
-            }"
-            :modules="[Pagination]"
-            :space-between="250"
-            :auto-height="false"
-            @slide-change-transition-end="
-              (e) => (currentRoomIndex = e.activeIndex)
-            "
-            class="swiper-horizontal"
-          >
-            <swiper-slide v-for="element in data" :key="element.titre">
-              <section>
-                <h4>{{ element.fields.titre }}</h4>
-                <img :src="element.fields.image[0].url" alt="hallan" />
-                <AudioGuide :src="element.fields.audio[0].url" />
-              </section>
-            </swiper-slide>
-          </swiper>
-          <div slot="pagination" class="swiper-pagination"></div>
+          <IllusionSwiper
+            :data="data"
+            @on-slide-index-change="(i) => (currentRoomIndex = i)"
+          />
         </main>
       </swiper-slide>
       <swiper-slide class="bottom-content">
@@ -77,14 +56,6 @@ onMounted(async () => {
   background-color: var(--ion-color-light);
 
   justify-content: start;
-  height: 100vh;
-}
-
-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
   height: 100%;
   min-height: 0;
 }
@@ -113,11 +84,10 @@ h3 {
   margin: 0;
 }
 
-h4 {
-  text-align: left;
-  font-size: 30px;
-  font-weight: 600;
-  color: var(--ion-color-dark);
+.swiper-vertical {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
 }
 
 img {
@@ -129,26 +99,6 @@ img {
 
 audio {
   width: 100%;
-}
-
-.swiper-pagination {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 32px;
-}
-
-.swiper-horizontal {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-}
-
-.swiper-vertical {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
 }
 
 .top-content {
@@ -168,7 +118,11 @@ audio {
   height: 100%;
   min-height: 0;
 
-  background-image: linear-gradient(-45deg, #7e33ac 0, #282828 60%);
+  background-image: linear-gradient(
+    -45deg,
+    #7e33ac 0,
+    var(--ion-color-light) 60%
+  );
 }
 
 .bottom-content h2 {

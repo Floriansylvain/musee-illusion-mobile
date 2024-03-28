@@ -1,8 +1,8 @@
 <template>
-  <ion-app>
+  <ion-app class="main">
     <PagesHeader />
     <ion-content>
-      <ion-router-outlet id="main-content" />
+      <ion-router-outlet class="main" id="main-content" />
     </ion-content>
   </ion-app>
 </template>
@@ -11,6 +11,12 @@
 import { IonApp, IonRouterOutlet } from "@ionic/vue";
 import { IonContent } from "@ionic/vue";
 import PagesHeader from "@/components/PagesHeader.vue";
-
-import "./theme/main.css";
 </script>
+
+<style>
+.main {
+  background-color: var(--ion-color-light);
+  height: 100%;
+  min-height: 0;
+}
+</style>
