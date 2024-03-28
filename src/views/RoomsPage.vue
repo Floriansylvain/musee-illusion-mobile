@@ -12,6 +12,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const data = ref();
+const currentRoomIndex = ref(0);
 
 const getRooms = async () => {
   const options = {
@@ -32,33 +33,44 @@ onMounted(async () => {
 
 <template>
   <ion-page class="page">
-    <PagesHeader />
-    <main>
-      <h2>Les salles</h2>
-      <h3>Venez découvrir les salles mises en place !</h3>
+    <swiper direction="vertical" class="swiper-vertical">
+      <swiper-slide class="top-content">
+        <PagesHeader />
+        <main>
+          <h2>Les salles</h2>
+          <h3>Venez découvrir les salles mises en place !</h3>
 
-      <swiper
-        :pagination="{
-          clickable: true,
-          el: '.swiper-pagination',
-          bulletClass: 'pagination-bullet',
-          bulletActiveClass: 'pagination-bullet-active',
-        }"
-        :modules="[Pagination]"
-        :space-between="250"
-        :auto-height="false"
-        class="mySwiper"
-      >
-        <swiper-slide v-for="element in data" :key="element.titre">
-          <section>
-            <h4>{{ element.fields.titre }}</h4>
-            <img :src="element.fields.image[0].url" alt="hallan" />
-            <AudioGuide :src="element.fields.audio[0].url" />
-          </section>
-        </swiper-slide>
-      </swiper>
-      <div slot="pagination" class="swiper-pagination"></div>
-    </main>
+          <swiper
+            :pagination="{
+              clickable: true,
+              el: '.swiper-pagination',
+              bulletClass: 'pagination-bullet',
+              bulletActiveClass: 'pagination-bullet-active',
+            }"
+            :modules="[Pagination]"
+            :space-between="250"
+            :auto-height="false"
+            @slide-change-transition-end="
+              (e) => (currentRoomIndex = e.activeIndex)
+            "
+            class="swiper-horizontal"
+          >
+            <swiper-slide v-for="element in data" :key="element.titre">
+              <section>
+                <h4>{{ element.fields.titre }}</h4>
+                <img :src="element.fields.image[0].url" alt="hallan" />
+                <AudioGuide :src="element.fields.audio[0].url" />
+              </section>
+            </swiper-slide>
+          </swiper>
+          <div slot="pagination" class="swiper-pagination"></div>
+        </main>
+      </swiper-slide>
+      <swiper-slide class="bottom-content">
+        <h2>{{ data && data[currentRoomIndex].fields.titre }}</h2>
+        <p>{{ data && data[currentRoomIndex].fields.description }}</p>
+      </swiper-slide>
+    </swiper>
   </ion-page>
 </template>
 
@@ -129,10 +141,49 @@ audio {
   margin-top: 32px;
 }
 
-.mySwiper {
+.swiper-horizontal {
   width: 100%;
   height: 100%;
   min-height: 0;
+}
+
+.swiper-vertical {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.top-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.bottom-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 32px;
+
+  height: 100%;
+  min-height: 0;
+
+  background-image: linear-gradient(-45deg, #7e33ac 0, #282828 60%);
+}
+
+.bottom-content h2 {
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.bottom-content p {
+  font-size: 27px;
+  font-weight: 500;
+  color: var(--ion-color-dark);
+  margin: 0;
 }
 </style>
 
@@ -147,5 +198,15 @@ audio {
 
 .pagination-bullet-active {
   background-color: var(--ion-color-dark);
+}
+
+@media (prefers-color-scheme: light) {
+  .bottom-content {
+    background-image: linear-gradient(
+      -45deg,
+      #983dd1 0,
+      #ffffff 60%
+    ) !important;
+  }
 }
 </style>
