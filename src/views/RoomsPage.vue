@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { IonPage } from "@ionic/vue";
-import PagesHeader from "@/components/PagesHeader.vue";
 import { onMounted, ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import { CapacitorHttp } from "@capacitor/core";
+
+import PagesHeader from "@/components/PagesHeader.vue";
+import AudioGuide from "@/components/AudioGuide.vue";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -51,7 +53,7 @@ onMounted(async () => {
           <section>
             <h4>{{ element.fields.titre }}</h4>
             <img :src="element.fields.image[0].url" alt="hallan" />
-            <audio controls :src="element.fields.audio[0].url"></audio>
+            <AudioGuide :src="element.fields.audio[0].url" />
           </section>
         </swiper-slide>
       </swiper>
@@ -71,7 +73,7 @@ onMounted(async () => {
 section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 
   height: 100%;
   min-height: 0;
@@ -124,7 +126,7 @@ audio {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 32px;
 }
 
 .mySwiper {
