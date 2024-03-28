@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { Pagination } from "swiper/modules";
+import { ref } from "vue";
+import { Pagination, EffectCoverflow } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
 import AudioGuide from "@/components/AudioGuide.vue";
-import { ref } from "vue";
+
+import "swiper/css";
+import "swiper/css/effect-coverflow";
 
 const props = defineProps<{
   data: any;
@@ -22,13 +25,21 @@ defineEmits(["onSlideIndexChange"]);
       bulletClass: 'pagination-bullet',
       bulletActiveClass: 'pagination-bullet-active',
     }"
-    :modules="[Pagination]"
+    :modules="[Pagination, EffectCoverflow]"
     :space-between="250"
     :auto-height="false"
     @slide-change-transition-end="
       (e) => $emit('onSlideIndexChange', e.activeIndex)
     "
     class="swiper-horizontal"
+    effect="coverflow"
+    :coverflowEffect="{
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: false,
+    }"
   >
     <swiper-slide v-for="element in props.data" :key="element.titre">
       <section>

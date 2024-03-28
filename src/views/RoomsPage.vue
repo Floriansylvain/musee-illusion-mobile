@@ -6,9 +6,6 @@ import { CapacitorHttp } from "@capacitor/core";
 
 import IllusionSwiper from "@/components/IllusionSwiper.vue";
 
-import "swiper/css";
-import "swiper/css/pagination";
-
 const data = ref();
 const currentRoomIndex = ref(0);
 

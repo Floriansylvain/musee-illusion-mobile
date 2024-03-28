@@ -22,10 +22,15 @@ import { IonButton, IonPage } from "@ionic/vue";
 
 <style scoped>
 .main {
-  height: 100vh;
+  height: 100%;
+  min-height: 0;
   padding: 32px;
 
-  background-image: linear-gradient(-45deg, #7e33ac 0, #282828 60%);
+  background-image: linear-gradient(
+    -45deg,
+    #7e33ac 0,
+    var(--ion-color-light) 60%
+  );
 }
 
 .top-content {
