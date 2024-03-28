@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import { CapacitorHttp } from "@capacitor/core";
 
-import PagesHeader from "@/components/PagesHeader.vue";
 import AudioGuide from "@/components/AudioGuide.vue";
 
 import "swiper/css";
@@ -35,7 +34,6 @@ onMounted(async () => {
   <ion-page class="page">
     <swiper direction="vertical" class="swiper-vertical">
       <swiper-slide class="top-content">
-        <PagesHeader />
         <main>
           <h2>Les salles</h2>
           <h3>Venez découvrir les salles mises en place !</h3>
@@ -184,29 +182,5 @@ audio {
   font-weight: 500;
   color: var(--ion-color-dark);
   margin: 0;
-}
-</style>
-
-<style>
-.pagination-bullet,
-.pagination-bullet-active {
-  width: 48px;
-  height: 4px;
-  background-color: var(--ion-color-medium);
-  border-radius: 8px;
-}
-
-.pagination-bullet-active {
-  background-color: var(--ion-color-dark);
-}
-
-@media (prefers-color-scheme: light) {
-  .bottom-content {
-    background-image: linear-gradient(
-      -45deg,
-      #983dd1 0,
-      #ffffff 60%
-    ) !important;
-  }
 }
 </style>
