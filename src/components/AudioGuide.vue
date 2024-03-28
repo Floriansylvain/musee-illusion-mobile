@@ -24,7 +24,13 @@ const toggleAudio = () => {
 </script>
 
 <template>
-  <audio preload="auto" ref="audioRef" :src="props.src"></audio>
+  <audio
+    preload="auto"
+    ref="audioRef"
+    :src="props.src"
+    @playing="isPlaying = true"
+    @pause="isPlaying = false"
+  ></audio>
   <article class="audio-guide">
     <button type="button" @click="toggleAudio">
       <ion-icon :icon="isPlaying ? pauseIcon : playIcon"></ion-icon>
