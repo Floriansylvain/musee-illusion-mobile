@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 
 import { IonicVue } from "@ionic/vue";
+import { ScreenOrientation } from "@capacitor/screen-orientation";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/vue/css/core.css";
@@ -29,3 +30,5 @@ const app = createApp(App).use(IonicVue).use(router);
 router.isReady().then(() => {
   app.mount("#app");
 });
+
+ScreenOrientation.lock({ orientation: "portrait" });
